@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./backend
+    env_file: .env
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir app # only watch app dir
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+  db:
+    image: postgres:18
+    volumes:
+      - postgres_db:/var/lib/postgresql
+    env_file: .env
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_db:
