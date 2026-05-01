@@ -1,27 +1,16 @@
-import re
 from typing import TypedDict
-import nltk # type: ignore
-nltk.download("punkt_tab") # type: ignore
 
-class SentenceChunk(TypedDict):
+class ParagraphChunk(TypedDict):
     series: str
     book: str
     chapter: int
     pov: str
     paragraph: int
-    full_paragraph: str
-    sentences: list[str]
+    paragraph_text: str
 
-def split_sentences(text: str) -> list[str]:
-    result: list[str] = nltk.sent_tokenize(text) # type: ignore[no-untyped-call]
-    return result
-
-def parse_book(filepath: str, book_title: str, series_title: str) -> list[SentenceChunk]:
-    with open(filepath, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    chapters = content.split("§")
-    chunks: list[SentenceChunk] = []
+def parse_book(content: str, book_title: str, series_title: str) -> list[ParagraphChunk]:
+    chapters = content.split("")
+    chunks: list[ParagraphChunk] = []
 
     for chapter_index, chapter_text in enumerate(chapters):
         chapter_text = chapter_text.strip()
@@ -35,19 +24,16 @@ def parse_book(filepath: str, book_title: str, series_title: str) -> list[Senten
         if not body:
             continue
 
-        # Merge single newlines (dialogue) into surrounding prose
-        normalized = re.sub(r"\n(?!\n)", " ", body)
-        paragraphs = [p.strip() for p in normalized.split("\n\n") if p.strip()]
+        paragraphs = [l.strip() for l in body.split("\n") if l.strip()]
 
         for para_index, para_text in enumerate(paragraphs):
             chunks.append({
                 "series": series_title,
                 "book": book_title,
-                "chapter": chapter_index + 1,
+                "chapter": chapter_index,
                 "pov": pov,
-                "paragraph": para_index,
-                "full_paragraph": para_text,
-                "sentences": split_sentences(para_text),
+                "paragraph": para_index + 1,
+                "paragraph_text": para_text
             })
 
     return chunks

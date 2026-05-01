@@ -14,8 +14,7 @@ class Paragraph(Base):
     chapter:         Mapped[int]   = mapped_column(Integer)
     pov:             Mapped[str]   = mapped_column(String)
     paragraph:       Mapped[int]   = mapped_column(Integer)
-    full_paragraph:  Mapped[str]   = mapped_column(Text)
-    sentences:       Mapped[str]   = mapped_column(Text)  # JSON string
+    paragraph_text:  Mapped[str]   = mapped_column(Text)
     embedding:       Mapped[list[float]]  = mapped_column(Vector(384))  # all-MiniLM-L6-v2 dims
 
     __table_args__ = (
