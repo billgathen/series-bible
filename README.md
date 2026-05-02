@@ -72,6 +72,6 @@ The books follow this order:
 
 Edit the names to match your series, then click "Save Instructions".
 
-In the chat textbox, try asking "Describe <your main character>"
+In the chat textbox, try asking "Describe Jennifer" (or whatever your lead character's name is)
 
 It will likely take a few seconds, but you should get some good results. From there, the sky's the limit. Enjoy!
