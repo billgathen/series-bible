@@ -1,8 +1,9 @@
 from fastapi import Depends, FastAPI, UploadFile, File
 from sqlalchemy import text
 from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import OperationalError
-from app.database import get_db
+from app.database import get_db, embed_and_store
 from app.parser import parse_book
 
 app = FastAPI()
@@ -24,8 +25,10 @@ async def parse_text_file(
     file: UploadFile = File(...),
     series_title: str = "unknown",
     book_title: str = "unknown",
+    db: AsyncSession = Depends(get_db)
 ):
     content = await file.read()
     text_content = content.decode("utf-8")
     chunks = parse_book(text_content, book_title, series_title)
-    return chunks
+    count = await embed_and_store(chunks, db)
+    return { "chunks stored": count }

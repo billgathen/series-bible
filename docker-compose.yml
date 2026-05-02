@@ -7,10 +7,11 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - huggingface_cache:/root/.cache/huggingface
     depends_on:
       - db
   db:
-    image: postgres:18
+    image: pgvector/pgvector:pg18
     volumes:
       - postgres_db:/var/lib/postgresql
     env_file: .env
@@ -19,3 +20,4 @@ services:
 
 volumes:
   postgres_db:
+  huggingface_cache:
