@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy import select
 from sentence_transformers import SentenceTransformer # type: ignore
 from app.models import Paragraph
 from app.parser import ParagraphChunk
@@ -37,3 +38,12 @@ async def embed_and_store(chunks: list[ParagraphChunk], db: AsyncSession) -> int
     db.add_all(rows)
     await db.commit()
     return len(rows)
+
+async def query_similar(query: str, limit: int, db: AsyncSession) -> list[Paragraph]:
+    vec = model.encode([query])[0].tolist()  # type: ignore
+    result = await db.execute(
+        select(Paragraph)
+        .order_by(Paragraph.embedding.op("<=>")(vec))
+        .limit(limit)
+    )
+    return list(result.scalars().all())
