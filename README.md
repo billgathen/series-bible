@@ -1,6 +1,8 @@
-# series-bible
+# series-bible 📚
 
 Convert book text into AI-digestible data, allowing on-demand queries of the content.
+
+I built this tool to help me stay on track as I continue work on my fiction series [Rise of the Shapers](https://www.amazon.com/dp/B0GPX7PNSP), so the examples refer to those books and characters. Check it out if you're interested! If not, I still hope this helps you in your own writing projects.
 
 ## Setup
 
@@ -55,23 +57,24 @@ If anything is wrong, you'll get an error in the upper-right corner saying so. Y
 
 If no error appears, open the sidebar and click on `Projects`.
 
-Create a new project named after your series.
+Create a new project named after your series. I called mine `Rise of the Shapers`.
 
 Toward the bottom of the main project page, you'll see `Instructions`. Click on the pencil icon to edit it.
 
 Copy/paste the following in the textbox:
 
 ```
-You are the curator of the series bible for my novel series "The Best Series Ever". Use the series-bible tool to find the answers you need. Do not use any other sources of information. Do not make anything up.
+You are the curator of the series bible for my novel series "Rise of the Shapers". Use the series-bible tool to find the answers you need. Do not use any other sources of information. Do not make anything up.
 
 The books follow this order:
-1) Book of the First
-2) Book of the Second
-3) Bob Chickens Out
+1) Elements of Betrayal
+1.5) No Good Deed
+2) Rules of Abduction
+3) Weapons of Starlight
 ```
 
 Edit the names to match your series, then click "Save Instructions".
 
-In the chat textbox, try asking "Describe Jennifer" (or whatever your lead character's name is)
+In the chat textbox, try asking "Describe Abby, Doug, Finn, Bix, and Thea" (or whatever your lead character names are)
 
-It will likely take a few seconds, but you should get some good results. From there, the sky's the limit. Enjoy!
+It will likely take a few seconds, but you should get some good results. From there, the sky's the limit. You can ask about locations, specific events, etc. Get creative with it and be sure to enjoy!
