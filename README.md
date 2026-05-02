@@ -6,21 +6,21 @@ Convert book text into AI-digestible data, allowing on-demand queries of the con
 
 Clone the app into a local folder. Make sure you have [Docker](https://docs.docker.com/get-started/introduction/develop-with-containers/) installed and running on your system.
 
-From the terminal in the project folder, run `docker compose up --build` (on future runs, `docker compose up` will be quicker)
+From the terminal in the project folder, run `docker compose up --build` On future runs, `docker compose up` will be **much** faster, but for now, go grab a beverage and spend some quality time on Reddit.
 
-Your server should be up and running on localhost:8000. Check http://localhost:8000/docs for current API endpoints.
+When it finally says `Application startup complete`, your server should be up and running on localhost. Check http://localhost:8000/docs for current API endpoints.
 
 ## Loading your series
 
 Open the [docs](http://localhost:8000/docs) page.
 
-In the **load** section, open the parse_text_file endpoint.
+In the **load** section, open the `parse_text_file` endpoint.
 
 Click "Try it out" and fill in `series_title` and `book_title`.
 
 Use the `file` picker to point to your exported text file.
 
-**NOTE** I write in [Scrivener](https://www.literatureandlatte.com/scrivener/overview) and when it exports to text, it splits the chapters using a "section delimiter". If your files don't have these dividers, it will treat the whole book as one chapter. Most things will still work, but you won't be able to ask chapter-specific questions.
+**NOTE** I write in [Scrivener](https://www.literatureandlatte.com/scrivener/overview) and when it exports to text, it splits the chapters using a "section delimiter" character you can find in `app.parser:parse_book`. If your files don't have these dividers, it will treat the whole book as one chapter. Most things will still work, but you won't be able to ask chapter-specific questions. Also, I name my chapters after the POV character, so if you name them something else, you may get odd results if you ask about POV.
 
 Click `Execute`. The loader will spin for a bit, then it should show `200 Successful Response` and tell you how many chunks it added to the system.
 
