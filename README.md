@@ -1,8 +1,14 @@
 # series-bible 📚
 
-Convert book text into AI-digestible data, allowing on-demand queries of the content.
+Convert fiction book text into AI-digestible data, allowing on-demand queries of the content to maintain continuity throughout a series.
 
 I built this tool to help me stay on track as I continue work on my fiction series [Rise of the Shapers](https://www.amazon.com/dp/B0GPX7PNSP), so the examples refer to those books and characters. Check it out if you're interested! If not, I still hope this helps you in your own writing projects.
+
+## Tech Stack/Architecture
+
+`series-bible` uses a RAG (Retrieval-Augmented Generation) approach: raw text files are chunked, embedded, and stored in a vector database paragraph-by-paragraph. An MCP server exposes a search tool that performs semantic similarity queries against those embeddings, adding the results to the current prompt for enhanced context. Storing the embeddings at the paragraph level allows fine-grained results which improves output and radically-reduces reduces token usage compared to loading the entire document with every session.
+
+It's built with Python, FastAPI, Docker, Alembic, SQLAlchemy, and pgvector on top of a locally-hosted Postgres database. I include an example for integrating with Claude Desktop, but it should work with any desktop client that supports MCP, which should be all of them.
 
 ## Setup
 
@@ -30,7 +36,7 @@ Repeat this for the remaining books in the series.
 
 ## Configuring Claude Desktop
 
-The `MCP` server inside series-bible should work with any AI client, but here are the instructions for wiring it up to [Claude Desktop](https://claude.com/download). I am on the free plan, and it works just fine!
+The `MCP` server inside series-bible should work with any desktop AI client, but here are the instructions for wiring it up to [Claude Desktop](https://claude.com/download). I am on the free plan, and it works just fine!
 
 Open `settings` and click the `Developer` option in the sidebar, all the way at the bottom.
 
@@ -79,4 +85,4 @@ Edit the names to match your series, then click "Save Instructions".
 
 In the chat textbox, try asking "Describe Abby, Doug, Finn, Bix, and Thea" (or whatever your lead character names are)
 
-It will likely take a few seconds, but you should get some good results. From there, the sky's the limit. You can ask about locations, specific events, etc. Get creative with it and be sure to enjoy!
+It will likely take a few seconds, but you should get good results. From there, the sky's the limit. You can ask about locations, specific events, etc. Get creative with it and be sure to enjoy!
