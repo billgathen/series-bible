@@ -22,7 +22,7 @@ Click "Try it out" and fill in `series_title` and `book_title`.
 
 Use the `file` picker to point to your exported text file.
 
-**NOTE** I write in [Scrivener](https://www.literatureandlatte.com/scrivener/overview) and when it exports to text, it splits the chapters using a "section delimiter" character you can find in `app.parser:parse_book`. If your files don't have these dividers, it will treat the whole book as one chapter. Most things will still work, but you won't be able to ask chapter-specific questions. Also, I name my chapters after the POV character, so if you name them something else, you may get odd results if you ask about POV.
+**NOTE** I write in [Scrivener](https://www.literatureandlatte.com/scrivener/overview) and when it exports to text, it splits the chapters using a "section delimiter" character you can find in `app.parser:parse_book`. If your files don't have these dividers, it will treat the whole book as one chapter. Most things will still work, but you won't be able to ask chapter-specific questions. Also, I name my chapters after the POV character, so if you name them something else, or don't name them at all, you may get odd results.
 
 Click `Execute`. The loader will spin for a bit, then it should show `200 Successful Response` and tell you how many chunks it added to the system.
 
@@ -48,6 +48,8 @@ Most-likely it will be empty, in which case you can copy/paste the following cod
   }
 }
 ```
+
+If the isn't empty when you open it, insert just the "mcpServers" block next to whatever content is already there.
 
 Change `/path/to/your/project` to the actual path to your project, then save the file.
 
