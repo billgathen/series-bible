@@ -6,7 +6,7 @@ I built this tool to help me stay on track as I continue work on my fiction seri
 
 ## Tech Stack/Architecture
 
-`series-bible` uses a RAG (Retrieval-Augmented Generation) approach: raw text files are chunked, embedded, and stored in a vector database paragraph-by-paragraph. An MCP server exposes a search tool that performs semantic similarity queries against those embeddings, adding the results to the current prompt for enhanced context. Storing the embeddings at the paragraph level allows fine-grained results which improves output and radically-reduces reduces token usage compared to loading the entire document with every session.
+`series-bible` uses a RAG (Retrieval-Augmented Generation) approach: raw text files are chunked, embedded, and stored in a vector database paragraph-by-paragraph. An MCP server exposes a search tool that performs semantic similarity queries against those embeddings, adding the results to the current prompt for enhanced context. Storing the embeddings at the paragraph level allows fine-grained results which improves output and radically-reduces token usage compared to loading the entire document with every session.
 
 It's built with Python, FastAPI, Docker, Alembic, SQLAlchemy, and pgvector on top of a locally-hosted Postgres database. I include an example for integrating with Claude Desktop, but it should work with any desktop client that supports MCP, which should be all of them.
 
@@ -86,3 +86,11 @@ Edit the names to match your series, then click "Save Instructions".
 In the chat textbox, try asking "Describe Abby, Doug, Finn, Bix, and Thea" (or whatever your lead character names are)
 
 It will likely take a few seconds, but you should get good results. From there, the sky's the limit. You can ask about locations, specific events, etc. Get creative with it and be sure to enjoy!
+
+## Possible Future Enhancements
+
+The UX using the FastAPI docs page is overly-utilitarian, and could use a dedicated page to replicate the logic. In the interest of speed-to-market (so I could start using it) I backburnered that work for now, especially since the audience is developer/authors like myself who will be familiar with the interface. Also, uploading books is a one-time action and all subsequent interaction is through the desktop AI client.
+
+The MCP interface doesn't surface data on which series/book/chapter the results come from, which would definitely improve usability. Asking "what color is Bix's hair" might result in multiple conflicting results and allow the client to say "in chapter 3, paragraph 5 of Elements of Betrayal you say it's red, but in chapter 7, paragraph 14 of Weapons of Starlight you call it auburn."
+
+The ability to support multiple series would be useful, as well, at least for writers with a larger back-catalog than mine. ;-) The series name is included in the data, but the semantic similarity query doesn't actively-use it. Setting up a separate project and adding "All questions will refer to the Rise of the Shapers series: ignore results from any other series." would be powerful for authors working on multiple series in parallel.
