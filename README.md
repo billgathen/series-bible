@@ -4,6 +4,8 @@ Convert fiction book text into AI-digestible data, allowing on-demand queries of
 
 I built this tool to help me stay on track as I continue work on my fiction series [Rise of the Shapers](https://www.amazon.com/dp/B0GPX7PNSP), so the examples refer to those books and characters. Check it out if you're interested! If not, I still hope this helps you in your own writing projects.
 
+> **NOTE** The front-end UI is under active development, but the app itself is completely-usable via the `/docs` endpoint and the process below works as described. Thank you for your patience!
+
 ## Tech Stack/Architecture
 
 `series-bible` uses a RAG (Retrieval-Augmented Generation) approach: raw text files are chunked, embedded, and stored in a vector database paragraph-by-paragraph. An MCP server exposes a search tool that performs semantic similarity queries against those embeddings, adding the results to the current prompt for enhanced context. Storing the embeddings at the paragraph level allows fine-grained results which improves output and radically-reduces token usage compared to loading the entire document with every session.
