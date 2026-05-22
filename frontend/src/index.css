@@ -57,6 +57,19 @@ p ~ p {
   margin-block-start: var(--space-3);
 }
 
-ul.questions {
+ul {
   padding-inline-start: var(--space-8);
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    background-color: var(--color-surface);
+  }
+}
+
+nav a {
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-lg);
 }
