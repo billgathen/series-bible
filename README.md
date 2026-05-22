@@ -55,7 +55,7 @@ Most-likely it will be empty, in which case you can copy/paste the following cod
 }
 ```
 
-If the isn't empty when you open it, insert just the "mcpServers" block next to whatever content is already there.
+If the file isn't empty when you open it, insert just the "mcpServers" block next to whatever content is already there.
 
 Change `/path/to/your/project` to the actual path to your project, then save the file.
 

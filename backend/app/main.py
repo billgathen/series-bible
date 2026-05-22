@@ -1,4 +1,6 @@
 from fastapi import Depends, FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -9,6 +11,19 @@ from app.types import ParagraphResult, SearchRequest
 
 
 app = FastAPI()
+
+origins = [
+  "http://localhost:5173",
+  "localhost:5173"
+]
+
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=origins,
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"]
+)
 
 @app.get('/health', tags=["health"])
 def get_health():
@@ -47,3 +62,5 @@ async def search(request: SearchRequest, db: AsyncSession = Depends(get_db)) -> 
     }
     for r in results
   ]
+
+app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")
