@@ -1,6 +1,7 @@
 from fastapi import Depends, FastAPI, Form, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -63,4 +64,8 @@ async def search(request: SearchRequest, db: AsyncSession = Depends(get_db)) -> 
     for r in results
   ]
 
-app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")
+app.mount("/assets", StaticFiles(directory="frontend/dist/assets"), name="assets")
+
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    return FileResponse("frontend/dist/index.html")
