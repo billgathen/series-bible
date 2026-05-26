@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, UploadFile, File
+from fastapi import Depends, FastAPI, Form, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
@@ -40,8 +40,8 @@ async def db_health(db: Session = Depends(get_db)):
 @app.post('/parse_text_file', tags=["load"])
 async def parse_text_file(
     file: UploadFile = File(...),
-    series_title: str = "unknown",
-    book_title: str = "unknown",
+    series_title: str = Form("unknown"),
+    book_title: str = Form("unknown"),
     db: AsyncSession = Depends(get_db)
 ):
     content = await file.read()
