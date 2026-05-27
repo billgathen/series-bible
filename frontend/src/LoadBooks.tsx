@@ -1,7 +1,8 @@
 import { useState, useRef } from "react"
+import { NavLink } from "react-router-dom"
 import Loader from "./Loader"
 
-export default function MakeBible() {
+export default function LoadBooks() {
   const [seriesTitle, setSeriesTitle] = useState("");
   const [bookTitle, setBookTitle] = useState("");
   const [textFile, setTextFile] = useState<File | null>(null);
@@ -65,6 +66,8 @@ export default function MakeBible() {
         <input type="file" name="file" accept=".txt" ref={inputRef} onChange={handleFileChange} required />
         <span></span>
         <button type="submit">Submit</button>
+        <span></span>
+        <div className="centered">When you've loaded your books, click <NavLink to="/connect">Connect Your AI</NavLink> to complete the process.</div>
         {loading && <Loader />}
       </form>
     </>

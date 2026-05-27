@@ -54,12 +54,26 @@ main {
   padding-block: var(--space-2);
 }
 
+footer {
+  min-height: var(--space-8);
+}
+
 p ~ p {
   margin-block-start: var(--space-3);
 }
 
-ul {
+p ~ ol {
+  margin-block-start: var(--space-4);
+}
+
+ul,
+ol {
   padding-inline-start: var(--space-8);
+}
+
+code {
+  font-size: medium;
+  font-weight: bold;
 }
 
 a {
@@ -110,6 +124,10 @@ label:has(~ input[required])::after {
   to {
     transform: rotate(360deg);
   }
+}
+
+.centered {
+  text-align: center;
 }
 
 @media (max-width: 90ch) {
