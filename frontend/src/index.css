@@ -102,6 +102,21 @@ label:has(~ input[required])::after {
   margin-inline-start: var(--space-1);
 }
 
+.library {
+  position: relative;
+  margin-top: var(--space-8);
+  border: 3px solid var(--color-border);
+}
+
+.library-list {
+  min-height: var(--space-8);
+}
+
+.divider {
+  margin: var(--space-4);
+  border: 1px solid var(--color-border);
+}
+
 .loader {
   position: absolute;
   inset: 0;

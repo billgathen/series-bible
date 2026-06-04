@@ -1,6 +1,7 @@
 import { useState, useRef } from "react"
 import { NavLink } from "react-router-dom"
 import Loader from "./Loader"
+import Library from "./Library";
 
 export default function LoadBooks() {
   const [seriesTitle, setSeriesTitle] = useState("");
@@ -70,6 +71,7 @@ export default function LoadBooks() {
         <div className="centered">When you've loaded your books, click <NavLink to="/connect">Connect Your AI</NavLink> to complete the process.</div>
         {loading && <Loader />}
       </form>
+      <Library />
     </>
   )
 }
