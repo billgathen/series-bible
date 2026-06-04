@@ -54,7 +54,7 @@ export default function LoadBooks() {
 
   return (
     <>
-      <h2>Make Your Bible</h2>
+      <h2>Load Books</h2>
       <form onSubmit={handleSubmit}>
         <span></span>
         <span>(All fields are required)</span>

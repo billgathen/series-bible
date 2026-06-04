@@ -10,3 +10,9 @@ class ParagraphResult(TypedDict):
     chapter: int
     pov: str
     paragraph_text: str
+
+class LibraryResult(TypedDict):
+   series: str
+   book: str
+   chapter_ct: int
+   paragraph_ct: int

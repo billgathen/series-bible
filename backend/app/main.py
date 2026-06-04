@@ -6,9 +6,9 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import OperationalError
-from app.database import get_db, embed_and_store, query_similar
+from app.database import get_db, embed_and_store, query_library, query_similar
 from app.parser import parse_book
-from app.types import ParagraphResult, SearchRequest
+from app.types import LibraryResult, ParagraphResult, SearchRequest
 
 
 app = FastAPI()
@@ -63,6 +63,10 @@ async def search(request: SearchRequest, db: AsyncSession = Depends(get_db)) -> 
     }
     for r in results
   ]
+
+@app.get('/library', tags=["query"])
+async def library(db: AsyncSession = Depends(get_db)) -> list[LibraryResult]:
+   return await query_library(db)
 
 app.mount("/assets", StaticFiles(directory="frontend/dist/assets"), name="assets")
 

@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func
+from app.types import LibraryResult
 from sentence_transformers import SentenceTransformer # type: ignore
 from app.models import Paragraph
 from app.parser import ParagraphChunk
@@ -47,3 +48,16 @@ async def query_similar(query: str, limit: int, db: AsyncSession) -> list[Paragr
         .limit(limit)
     )
     return list(result.scalars().all())
+
+async def query_library(db: AsyncSession) -> list[LibraryResult]:
+    result = await db.execute(
+        select(
+            Paragraph.series,
+            Paragraph.book,
+            func.count(Paragraph.chapter.distinct()).label("chapter_ct"),
+            func.count(Paragraph.paragraph).label("paragraph_ct")
+        )
+        .group_by(Paragraph.series, Paragraph.book)
+        .order_by(Paragraph.series)
+    )
+    return [LibraryResult(**row) for row in result.mappings().all()]
