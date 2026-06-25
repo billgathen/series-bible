@@ -8,9 +8,10 @@ interface BookData {
   paragraph_ct: number
 }
 
-export default function Library() {
+export default function Library({ refreshKey = 0 }: { refreshKey?: number }) {
   const [data, setData] = useState<Record<string, BookData[]>>({})
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const groupBySeries = (_data: BookData[]) => {
     const newData: Record<string, BookData[]> = {}
@@ -24,41 +25,46 @@ export default function Library() {
 
   useEffect(() => {
     async function load() {
+      setLoading(true);
+      setError(null);
       try {
         const response = await fetch("/library");
 
         if (!response.ok) {
-          alert(`Error uploading data: ${response.status}`)
+          setError(`Could not load library (${response.status})`)
         } else {
           groupBySeries(await response.json())
         }
-      } catch (err) {
-        alert(`Error during upload: ${err}`);
+      } catch {
+        setError("Could not reach server")
       } finally {
         setLoading(false);
       }
     }
 
     load()
-  }, [])
+  }, [refreshKey])
 
   return (
     <div className="library">
       <h2>Library</h2>
       <div className="divider"></div>
-      <ul>
-        {Object.entries(data).map(([series, books]) => (
-          <li key={series}>
-            {series}
-            <ul>
-              {books.map(row => <li key={row.book}>{row.book} ({row.chapter_ct} chapters, {row.paragraph_ct} paragraphs)</li>)}
-            </ul>
-          </li>
-        ))}
-      </ul>
-      <div className="library-list">
-        {loading && <Loader />}
-      </div>
+      {loading ? <Loader /> : error ? (
+        <p role="alert">{error}</p>
+      ) : Object.keys(data).length === 0 ? (
+        <p>No books loaded yet.</p>
+      ) : (
+        <ul>
+          {Object.entries(data).map(([series, books]) => (
+            <li key={series}>
+              {series}
+              <ul>
+                {books.map(row => <li key={row.book}>{row.book} ({row.chapter_ct} chapters, {row.paragraph_ct} paragraphs)</li>)}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }

@@ -9,6 +9,7 @@ export default function LoadBooks() {
   const [textFile, setTextFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+  const [libraryKey, setLibraryKey] = useState(0);
 
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
@@ -29,6 +30,7 @@ export default function LoadBooks() {
         alert(`Error uploading data: ${response.status}`)
       } else {
         alert("Upload successful!")
+        setLibraryKey(k => k + 1)
       }
     } catch (err) {
       alert(`Error during upload: ${err}`);
@@ -60,18 +62,18 @@ export default function LoadBooks() {
         <span></span>
         <span>(All fields are required)</span>
         <label htmlFor="series-title">Series Title</label>
-        <input type="text" name="series-title" value={seriesTitle} onChange={e => setSeriesTitle(e.target.value)} required />
+        <input id="series-title" type="text" name="series-title" value={seriesTitle} onChange={e => setSeriesTitle(e.target.value)} required />
         <label htmlFor="book-title">Book Title</label>
-        <input type="text" name="book-title" value={bookTitle} onChange={e => setBookTitle(e.target.value)} required />
+        <input id="book-title" type="text" name="book-title" value={bookTitle} onChange={e => setBookTitle(e.target.value)} required />
         <label htmlFor="file">Text File</label>
-        <input type="file" name="file" accept=".txt" ref={inputRef} onChange={handleFileChange} required />
+        <input id="file" type="file" name="file" accept=".txt" ref={inputRef} onChange={handleFileChange} required />
         <span></span>
         <button type="submit">Submit</button>
         <span></span>
         <div className="centered">When you've loaded your books, click <NavLink to="/connect">Connect Your AI</NavLink> to complete the process.</div>
         {loading && <Loader />}
       </form>
-      <Library />
+      <Library refreshKey={libraryKey} />
     </>
   )
 }
