@@ -8,41 +8,46 @@ interface BookData {
   paragraph_ct: number
 }
 
+function groupBySeries(items: BookData[]): Record<string, BookData[]> {
+  return items.reduce<Record<string, BookData[]>>((acc, obj) => {
+    if (!acc[obj.series]) acc[obj.series] = []
+    acc[obj.series].push(obj)
+    return acc
+  }, {})
+}
+
 export default function Library({ refreshKey = 0 }: { refreshKey?: number }) {
   const [data, setData] = useState<Record<string, BookData[]>>({})
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const groupBySeries = (_data: BookData[]) => {
-    const newData: Record<string, BookData[]> = {}
-    _data.forEach(obj => {
-      const series = obj["series"]
-      if (!newData[series]) newData[series] = []
-      newData[series].push(obj)
-    })
-    setData(newData)
-  }
-
   useEffect(() => {
+    const controller = new AbortController()
+
     async function load() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch("/library");
+        const response = await fetch("/library", { signal: controller.signal });
 
         if (!response.ok) {
           setError(`Could not load library (${response.status})`)
         } else {
-          groupBySeries(await response.json())
+          setData(groupBySeries(await response.json()))
         }
-      } catch {
-        setError("Could not reach server")
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          setError("Could not reach server")
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
 
     load()
+    return () => controller.abort()
   }, [refreshKey])
 
   return (
@@ -52,7 +57,7 @@ export default function Library({ refreshKey = 0 }: { refreshKey?: number }) {
       {loading ? <Loader /> : error ? (
         <p role="alert">{error}</p>
       ) : Object.keys(data).length === 0 ? (
-        <p>No books loaded yet.</p>
+        <p role="status">No books loaded yet.</p>
       ) : (
         <ul>
           {Object.entries(data).map(([series, books]) => (

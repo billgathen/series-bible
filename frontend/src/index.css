@@ -109,10 +109,6 @@ label:has(~ input[required])::after {
   padding-bottom: 1rem;
 }
 
-.library-list {
-  min-height: var(--space-8);
-}
-
 .divider {
   margin: var(--space-4);
   border: 1px solid var(--color-border);

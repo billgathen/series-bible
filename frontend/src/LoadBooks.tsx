@@ -31,12 +31,12 @@ export default function LoadBooks() {
       } else {
         alert("Upload successful!")
         setLibraryKey(k => k + 1)
+        clearForm();
       }
     } catch (err) {
       alert(`Error during upload: ${err}`);
     }
 
-    clearForm();
     setLoading(false);
   }
 
