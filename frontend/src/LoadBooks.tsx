@@ -73,7 +73,7 @@ export default function LoadBooks() {
         <div className="centered">When you've loaded your books, click <NavLink to="/connect">Connect Your AI</NavLink> to complete the process.</div>
         {loading && <Loader />}
       </form>
-      <Library refreshKey={libraryKey} />
+      <Library refreshKey={libraryKey} onDelete={() => setLibraryKey(k => k + 1)} />
     </>
   )
 }

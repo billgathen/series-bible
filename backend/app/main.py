@@ -6,7 +6,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import OperationalError
-from app.database import get_db, embed_and_store, query_library, query_similar
+from app.database import get_db, embed_and_store, query_library, query_similar, delete_book, delete_series
 from app.parser import parse_book
 from app.types import LibraryResult, ParagraphResult, SearchRequest
 
@@ -67,6 +67,16 @@ async def search(request: SearchRequest, db: AsyncSession = Depends(get_db)) -> 
 @app.get('/library', tags=["query"])
 async def library(db: AsyncSession = Depends(get_db)) -> list[LibraryResult]:
    return await query_library(db)
+
+@app.delete('/library/{series}', tags=["load"])
+async def remove_series(series: str, db: AsyncSession = Depends(get_db)):
+    count = await delete_series(series, db)
+    return {"deleted": count}
+
+@app.delete('/library/{series}/{book}', tags=["load"])
+async def remove_book(series: str, book: str, db: AsyncSession = Depends(get_db)):
+    count = await delete_book(series, book, db)
+    return {"deleted": count}
 
 app.mount("/assets", StaticFiles(directory="frontend/dist/assets"), name="assets")
 

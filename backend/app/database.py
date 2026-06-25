@@ -49,6 +49,22 @@ async def query_similar(query: str, limit: int, db: AsyncSession) -> list[Paragr
     )
     return list(result.scalars().all())
 
+async def delete_book(series: str, book: str, db: AsyncSession) -> int:
+    from sqlalchemy import delete
+    result = await db.execute(
+        delete(Paragraph).where(Paragraph.series == series, Paragraph.book == book)
+    )
+    await db.commit()
+    return result.rowcount
+
+async def delete_series(series: str, db: AsyncSession) -> int:
+    from sqlalchemy import delete
+    result = await db.execute(
+        delete(Paragraph).where(Paragraph.series == series)
+    )
+    await db.commit()
+    return result.rowcount
+
 async def query_library(db: AsyncSession) -> list[LibraryResult]:
     result = await db.execute(
         select(
